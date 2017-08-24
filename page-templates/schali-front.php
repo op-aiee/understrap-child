@@ -1,33 +1,49 @@
 <?php
 /**
- * Template Name: Schali Frontpage Template
+ * Template Name: Schali Front Page
  *
- * Template for displaying a blank page.
+ * Template for displaying a page without sidebar even if a sidebar widget is published.
  *
  * @package understrap
  */
 
+get_header();
+$container = get_theme_mod( 'understrap_container_type' );
 ?>
-<!DOCTYPE html>
-<html <?php language_attributes(); ?>>
-<head>
-	<meta charset="<?php bloginfo( 'charset' ); ?>">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-title"
-		content="<?php bloginfo( 'name' ); ?> - <?php bloginfo( 'description' ); ?>">
-	<link rel="profile" href="http://gmpg.org/xfn/11">
-	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
-	<?php wp_head(); ?>
-</head>
-<body>
-<?php while ( have_posts() ) : the_post(); ?>
 
-	<?php get_template_part( 'loop-templates/content', 'front' ); ?>
+<div class="front-wrapper" id="full-width-page-wrapper">
 
-<?php endwhile; // end of the loop. ?>
-<?php wp_footer(); ?>
-</body>
-</html>
+    <div class="<?php echo esc_attr( $container ); ?>" id="content">
+
+        <div class="row">
+
+            <div class="col-md-12 content-area" id="primary">
+
+                <main class="site-main" id="main" role="main">
+
+                    <?php while ( have_posts() ) : the_post(); ?>
+
+                        <?php get_template_part( 'loop-templates/content', 'front' ); ?>
+
+                        <?php
+                        // If comments are open or we have at least one comment, load up the comment template.
+                        if ( comments_open() || get_comments_number() ) :
+
+                            comments_template();
+
+                        endif;
+                        ?>
+
+                    <?php endwhile; // end of the loop. ?>
+
+                </main><!-- #main -->
+
+            </div><!-- #primary -->
+
+        </div><!-- .row end -->
+
+    </div><!-- Container end -->
+
+</div><!-- Wrapper end -->
+
+<?php get_footer(); ?>
